@@ -17,6 +17,7 @@ def require(key: str, cast=str):
 # Mandatory settings
 APP_PORT = require("APP_PORT", cast=int)
 APP_HOST = require("APP_HOST")
+APP_SECRET_KEY = require("APP_SECRET_KEY")
 
 POSTGRES_USER = require("POSTGRES_USER")
 POSTGRES_PASSWORD = require("POSTGRES_PASSWORD")
@@ -32,13 +33,11 @@ dictConfig({
     "disable_existing_loggers": False,
     "formatters": {
         "default": {
-            "()": "uvicorn.logging.DefaultFormatter",
-            "fmt": "%(levelprefix)s %(message)s",
-            "use_colors": True
+            "format": "[%(asctime)s] [%(levelname)s] %(name)s: %(message)s"
         }
     },
     "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "default"}
+        "console": {"class": "logging.StreamHandler", "formatter": "default"},
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 })

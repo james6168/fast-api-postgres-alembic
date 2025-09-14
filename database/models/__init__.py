@@ -1,6 +1,5 @@
 import pkgutil
 import importlib
-import pathlib
 import sys
 
 from .base import Base
