@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Path
 from database import get_session
-from database.models.auth.user import User
+from database.models.users.users import User
 from api.v1.schemes.users.users import BaseUserScheme, UserOutScheme, UpdateUserScheme
-from utils.cryptography import hash_password
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from typing import Optional
 from api.v1.repositories.users.users import UserRepository
 from api.v1.repositories.exceptions import EntityAlreadyExistsError
@@ -61,10 +59,12 @@ async def user_update(
             }
         )
     
+    
     user = await repo.update(
         obj=user,
         data=payload.model_dump(exclude_unset=True)
     )
+    
 
     return {
         "user": UserOutScheme.model_validate(user.as_dict()).model_dump(exclude_unset=True)
